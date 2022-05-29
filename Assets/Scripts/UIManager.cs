@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
 
     private SaveData saveData;
 
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
         saveData = new SaveData();
@@ -39,6 +40,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // Function: Increases the score by 1 every 100 milliseconds when the player is alive
     private IEnumerator UpdateScore()
     {
         while(!PlayerController.gameOver)
@@ -50,6 +52,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // Function: If the score is equal to highscore (which means that the player 
+    // has beaten the highscore), then the highscore will be updated
     public void UpdateHighScore()
     {
         if(_score == _highScore)
