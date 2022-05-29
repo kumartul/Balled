@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip _flapSound;
     [SerializeField] private AudioClip _dieSound;
 
+    [SerializeField] private UIManager uiManager;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -33,8 +35,10 @@ public class PlayerController : MonoBehaviour
     {
         if(other.CompareTag("Obstacle"))
         {
-            gameOver = true;
+            uiManager.UpdateHighScore();
             
+            gameOver = true;
+
             _audioSource.PlayOneShot(_dieSound);
         }
     }
