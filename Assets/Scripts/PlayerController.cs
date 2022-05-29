@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static bool gameOver { get; private set; }
     private float _force = 230f;
 
     [SerializeField] private Rigidbody2D _rb;
@@ -9,6 +10,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _flapSound;
     [SerializeField] private AudioClip _dieSound;
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        gameOver = false;
+    }
 
     // Update is called once per frame
     private void Update()
@@ -26,6 +33,8 @@ public class PlayerController : MonoBehaviour
     {
         if(other.CompareTag("Obstacle"))
         {
+            gameOver = true;
+            
             _audioSource.PlayOneShot(_dieSound);
         }
     }
