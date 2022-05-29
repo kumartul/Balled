@@ -3,7 +3,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static bool gameOver { get; private set; }
+
+    public static float Speed { get; set; }
+    
     private float _force = 230f;
+    private float _startDelay = 10f;
+    private float _repeatRate = 10f;
 
     [SerializeField] private Rigidbody2D _rb;
 
@@ -17,6 +22,9 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         gameOver = false;
+        Speed = 10f;
+
+        InvokeRepeating("IncreaseSpeed", _startDelay, _repeatRate);
     }
 
     // Update is called once per frame
@@ -36,7 +44,7 @@ public class PlayerController : MonoBehaviour
         if(other.CompareTag("Obstacle"))
         {
             uiManager.UpdateHighScore();
-            
+
             gameOver = true;
 
             _audioSource.PlayOneShot(_dieSound);
@@ -49,5 +57,11 @@ public class PlayerController : MonoBehaviour
         _rb.AddForce(Vector2.up * _force);
 
         _audioSource.PlayOneShot(_flapSound);
+    }
+
+    // Function: Increase the speed by 0.5 every 10 seconds
+    private void IncreaseSpeed()
+    {
+        Speed += 0.5f;
     }
 }

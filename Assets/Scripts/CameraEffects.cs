@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class CameraEffects : MonoBehaviour
 {
-    private float _delay = 6f;
-    private float _targetRot = 15f;
     private float _targetRotation;
+
+    private Vector2 _targetRotRange = new Vector2(5f, 45f);     
+    private Vector2 _rotationTime = new Vector2(0.05f, 0.1f);   
+    private Vector2 _delayRange = new Vector2(2f, 10f);         
 
     // Start is called before the first frame update
     void Start()
@@ -18,11 +20,11 @@ public class CameraEffects : MonoBehaviour
     {
         float t = 0;
 
-        yield return new WaitForSeconds(_delay);
+        yield return new WaitForSeconds(Random.Range(_delayRange.x, _delayRange.y));
 
         while (t < 2)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, 0f, _targetRotation), 0.05f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, 0f, _targetRotation), Random.Range(_rotationTime.x, _rotationTime.y));
 
             t += Time.fixedDeltaTime;
 
@@ -35,13 +37,13 @@ public class CameraEffects : MonoBehaviour
     {
         while (true)
         {
-            _targetRotation = _targetRot;
+            _targetRotation = Random.Range(_targetRotRange.x, _targetRotRange.y);
             yield return StartCoroutine(Rotate());
 
             _targetRotation = 0f;
             yield return StartCoroutine(Rotate());
 
-            _targetRotation = -_targetRot;
+            _targetRotation = -Random.Range(_targetRotRange.x, _targetRotRange.y);
             yield return StartCoroutine(Rotate());
 
             _targetRotation = 0f;
