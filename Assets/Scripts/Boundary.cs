@@ -8,7 +8,7 @@ public class Boundary : MonoBehaviour
     // respawned the next time
     private void OnTriggerExit2D(Collider2D other)
     {
-        if(other.CompareTag("Obstacle"))
+        if(other.CompareTag(TagManager.OBSTACLE))
         {
             other.gameObject.SetActive(false);
 
