@@ -25,6 +25,7 @@ public class ObstacleGenerator : MonoBehaviour
     [SerializeField] private GameObject _obstacle;
     private GameObject _top;
     private GameObject _bottom;
+    private GameObject _clone;
 
     private int _poolSize = 50;
 
@@ -65,20 +66,20 @@ public class ObstacleGenerator : MonoBehaviour
 
         for (int i = 0; i < _poolSize; i++)
         {
-            GameObject clone = Instantiate(_obstacle, _startPos, Quaternion.identity, _obstacleContainer);
-            clone.SetActive(false);
+            _clone = Instantiate(_obstacle, _startPos, Quaternion.identity, _obstacleContainer);
+            _clone.SetActive(false);
 
-            Obstacles.Enqueue(clone);
+            Obstacles.Enqueue(_clone);
         }
     }
 
     // Function: Returns a random obstacle from the pool
     private GameObject GetObstacle()
     {
-        GameObject clone = Obstacles.Dequeue();
-        clone.transform.position = _startPos;
+        _clone = Obstacles.Dequeue();
+        _clone.transform.position = _startPos;
 
-        return clone;
+        return _clone;
     }
 
     // Function: Updates the width and position of the _top obstacle
