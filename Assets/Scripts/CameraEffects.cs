@@ -9,9 +9,13 @@ public class CameraEffects : MonoBehaviour
     private Vector2 _rotationTime = new Vector2(0.05f, 0.1f);   
     private Vector2 _delayRange = new Vector2(2f, 10f);         
 
+    private Transform _myTransform;  // Cache the Transform component of this object
+
     // Start is called before the first frame update
     void Start()
     {
+        _myTransform = transform;
+
         StartCoroutine(Rotation());
     }
 
@@ -24,7 +28,7 @@ public class CameraEffects : MonoBehaviour
 
         while (t < 2)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, 0f, _targetRotation), Random.Range(_rotationTime.x, _rotationTime.y));
+            _myTransform.rotation = Quaternion.Lerp(_myTransform.rotation, Quaternion.Euler(0f, 0f, _targetRotation), Random.Range(_rotationTime.x, _rotationTime.y));
 
             t += Time.fixedDeltaTime;
 
