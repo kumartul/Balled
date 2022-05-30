@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 1864035913}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,6 +173,7 @@ MonoBehaviour:
   _audioSource: {fileID: 1864035913}
   _flapSound: {fileID: 8300000, guid: c0f474116246f73459ba2074de5e7ee6, type: 3}
   _dieSound: {fileID: 8300000, guid: c3de33b5078d9c8468c732d59cd464e5, type: 3}
+  uiManager: {fileID: 0}
 --- !u!82 &1864035913
 AudioSource:
   m_ObjectHideFlags: 0
