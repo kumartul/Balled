@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,8 +8,6 @@ public class PlayerController : MonoBehaviour
     public static float Speed { get; set; }
     
     private float _force = 230f;
-    private float _startDelay = 10f;
-    private float _repeatRate = 10f;
 
     [SerializeField] private Rigidbody2D _rb;
 
@@ -24,7 +23,7 @@ public class PlayerController : MonoBehaviour
         gameOver = false;
         Speed = 10f;
 
-        InvokeRepeating("IncreaseSpeed", _startDelay, _repeatRate);
+        StartCoroutine(IncreaseSpeed());
     }
 
     // Update is called once per frame
@@ -60,8 +59,13 @@ public class PlayerController : MonoBehaviour
     }
 
     // Function: Increase the speed by 0.5 every 10 seconds
-    private void IncreaseSpeed()
+    private IEnumerator IncreaseSpeed()
     {
-        Speed += 0.5f;
+        while(true)
+        {
+            yield return new WaitForSeconds(10f);
+
+            Speed += 0.5f;
+        }
     }
 }
