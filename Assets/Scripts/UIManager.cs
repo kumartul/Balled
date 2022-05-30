@@ -1,15 +1,20 @@
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private TextMeshProUGUI _highScoreText;
+    [SerializeField] private TextMeshProUGUI _gameOverScoreText;
+    [SerializeField] private TextMeshProUGUI _gameOverHighScoreText;
 
     private int _score = 0;
     private int _highScore;
+
+    [SerializeField] private GameObject gameOverPanel;
 
     private SaveData saveData;
 
@@ -61,6 +66,27 @@ public class UIManager : MonoBehaviour
             saveData.highScore = _highScore;
             saveData.SaveHighScore();
         }
+    }
+
+    // Function: Starts the game
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneNameManager.MAIN_SCENE);
+    }
+
+    // Function: Quits the game
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    // Function: Displays the game over panel and stops the game
+    public void GameOver()
+    {
+        gameOverPanel.SetActive(true);
+
+        _gameOverScoreText.text = "Score: " + _score.ToString();
+        _gameOverHighScoreText.text = "High Score: " + _highScore.ToString();
     }
 
     [System.Serializable]

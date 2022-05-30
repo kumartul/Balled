@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip _flapSound;
     [SerializeField] private AudioClip _dieSound;
 
-    [SerializeField] private UIManager uiManager;
+    [SerializeField] private UIManager _uiManager;
 
     // Start is called before the first frame update
     private void Start()
@@ -37,19 +37,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // If the player hits an obstacle, then game will end
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.CompareTag("Obstacle"))
-        {
-            uiManager.UpdateHighScore();
-
-            gameOver = true;
-
-            _audioSource.PlayOneShot(_dieSound);
-        }
-    }
-
     // Function: Adds an upward force to the ball
     private void Flap()
     {
@@ -61,11 +48,26 @@ public class PlayerController : MonoBehaviour
     // Function: Increase the speed by 0.5 every 10 seconds
     private IEnumerator IncreaseSpeed()
     {
-        while(true)
+        while (true)
         {
             yield return new WaitForSeconds(10f);
 
             Speed += 0.5f;
+        }
+    }
+
+    // If the player hits an obstacle, then game will end
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Obstacle"))
+        {
+            _uiManager.UpdateHighScore();
+
+            gameOver = true;
+
+            _audioSource.PlayOneShot(_dieSound);
+
+            _uiManager.GameOver();
         }
     }
 }
