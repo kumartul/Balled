@@ -6,6 +6,8 @@ public class ObstacleGenerator : MonoBehaviour
 {
     public static Queue<GameObject> Obstacles;
 
+    public static bool startTimer { get; set; }
+
     private Vector2 _widthRange = new Vector2(3f, 3f);
     private Vector2 _heightRange = new Vector2(2.3f, 4.3f);
 
@@ -43,10 +45,18 @@ public class ObstacleGenerator : MonoBehaviour
         get => (_bottomWidth - _smooth / PlayerController.Speed) / PlayerController.Speed;
     }
 
+    // Keep a copy of the executing script
+    private IEnumerator topRandGenRoutine;
+    private IEnumerator bottomRandGenRoutine;
+
+    private bool coroutinesStopped = false;
+
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
         _startPos = new Vector3(15f, 0f, 0f);
+        
+        startTimer = false;
 
         FillPool();
     }
@@ -54,8 +64,30 @@ public class ObstacleGenerator : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        StartCoroutine(TopRandGen());
-        StartCoroutine(BottomRandGen());
+        topRandGenRoutine = TopRandGen();
+        bottomRandGenRoutine = BottomRandGen();
+
+        StartCoroutine(topRandGenRoutine);
+        StartCoroutine(bottomRandGenRoutine);
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if(startTimer)
+        {
+            float time = Time.time;
+
+            // Stop all the coroutines if 4 seconds have elapsed and the game is over
+            // Ensure that the coroutines stop only once by using a boolean
+            if(!coroutinesStopped && (time > 4f) && PlayerController.gameOver)
+            {
+                coroutinesStopped = true;
+
+                StopCoroutine(topRandGenRoutine);
+                StopCoroutine(bottomRandGenRoutine);
+            }
+        }
     }
 
     // Function: Instantiates obstacles and enqueues them to the pool of obstacles after

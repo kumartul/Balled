@@ -81,6 +81,8 @@ public class UIManager : MonoBehaviour
 
         _playerController.Init();
 
+        ObstacleGenerator.startTimer = true;
+
         _audioSource.PlayOneShot(_backgroundMusic);
 
         StartCoroutine(UpdateScore());
