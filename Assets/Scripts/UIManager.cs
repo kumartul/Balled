@@ -14,9 +14,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private PlayerController _playerController;
 
+    [SerializeField] private AudioSource _canvasAudioSource;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _backgroundMusic;
     [SerializeField] private AudioClip _321Go;
+    [SerializeField] private AudioClip _clickSound;
 
     private int _score = 0;
     private int _highScore;
@@ -105,6 +107,12 @@ public class UIManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    // Function: Plays the click sound
+    public void PlayClickSound()
+    {
+        _canvasAudioSource.PlayOneShot(_clickSound);
     }
 
     // Function: Displays the game over panel and stops the game
