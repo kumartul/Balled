@@ -31,11 +31,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // If the user presses the spacebar or the left mouse button, then add an 
-        // upward force to the ball
-        if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        if(!PlayerController.gameOver)
         {
-            Flap();
+            // If the user presses the spacebar or the left mouse button, then add an 
+            // upward force to the ball
+            if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+            {
+                Flap();
+            }
         }
     }
 
