@@ -88,8 +88,7 @@ public class UIManager : MonoBehaviour
     // has beaten the highscore), then the highscore will be updated
     public void UpdateHighScore()
     {
-        // TODO: Change this to >=
-        if(_score == _highScore)
+        if(_score >= _highScore)
         {
             saveData.highScore = _highScore;
             saveData.SaveHighScore();
