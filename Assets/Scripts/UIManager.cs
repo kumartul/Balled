@@ -10,6 +10,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _highScoreText;
     [SerializeField] private TextMeshProUGUI _gameOverScoreText;
     [SerializeField] private TextMeshProUGUI _gameOverHighScoreText;
+    [SerializeField] private TextMeshProUGUI _countDownText;
+
+    [SerializeField] private PlayerController _playerController;
+
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _backgroundMusic;
+    [SerializeField] private AudioClip _321Go;
 
     private int _score = 0;
     private int _highScore;
@@ -27,12 +34,14 @@ public class UIManager : MonoBehaviour
         _highScore = saveData.highScore;
 
         _highScoreText.text = "High Score: " + _highScore;
+
+        _audioSource.PlayOneShot(_321Go);
     }
     
     // Start is called before the first frame update
     private void Start()
     {
-        StartCoroutine(UpdateScore());
+        StartCoroutine(CountDown());
     }
 
     // Update is called once per frame
@@ -57,10 +66,29 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private IEnumerator CountDown()
+    {
+        for(int i = 3; i > 0; i--)
+        {
+            _countDownText.text = i.ToString();
+
+            yield return new WaitForSeconds(1f);
+        }
+        
+        _countDownText.text = string.Empty;
+
+        _playerController.Init();
+
+        _audioSource.PlayOneShot(_backgroundMusic);
+
+        StartCoroutine(UpdateScore());
+    }
+
     // Function: If the score is equal to highscore (which means that the player 
     // has beaten the highscore), then the highscore will be updated
     public void UpdateHighScore()
     {
+        // TODO: Change this to >=
         if(_score == _highScore)
         {
             saveData.highScore = _highScore;
@@ -87,6 +115,8 @@ public class UIManager : MonoBehaviour
 
         _gameOverScoreText.text = "Score: " + _score.ToString();
         _gameOverHighScoreText.text = "High Score: " + _highScore.ToString();
+
+        _audioSource.Stop();
     }
 
     [System.Serializable]

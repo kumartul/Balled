@@ -13,7 +13,10 @@ public class ObstacleMover : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // Move the obstacle to the left
-        _myTransform.position += Vector3.left * Time.deltaTime * PlayerController.Speed;
+        if(!PlayerController.gameOver)
+        {
+            // Move the obstacle to the left
+            _myTransform.position += Vector3.left * Time.deltaTime * PlayerController.Speed;
+        }
     }
 }

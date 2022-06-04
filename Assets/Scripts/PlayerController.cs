@@ -20,8 +20,10 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        gameOver = false;
+        gameOver = true;
         Speed = 10f;
+
+        _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
 
         StartCoroutine(IncreaseSpeed());
     }
@@ -45,6 +47,16 @@ public class PlayerController : MonoBehaviour
         _audioSource.PlayOneShot(_flapSound);
     }
 
+    // Function: Initializes the game
+    public void Init()
+    {
+        gameOver = false;
+
+        _rb.constraints = RigidbodyConstraints2D.None;
+
+        Flap();
+    }
+
     // Function: Increase the speed by 0.5 every 10 seconds
     private IEnumerator IncreaseSpeed()
     {
@@ -59,7 +71,8 @@ public class PlayerController : MonoBehaviour
     // If the player hits an obstacle, then game will end
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Obstacle"))
+        // Ensure that the game ends only once by checking that the game is not over
+        if(other.CompareTag(TagManager.OBSTACLE) && !gameOver)
         {
             _uiManager.UpdateHighScore();
 
